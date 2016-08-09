@@ -46,11 +46,21 @@
 
       map.zoomControl.setPosition('bottomright');
 
-      // var geocoder = L.Mapzen.geocoder('search--NA8UXg');
-      // geocoder.addTo(map);
+      // Mapobox Geocoder
 
-      var geocoder = L.mapbox.geocoder(mapbox.places);
-      geocoder.addTo(map);
+      var geocoder = L.mapbox.geocoder("mapbox.places",{
+        accessToken: 'pk.eyJ1IjoiaGFuYnl1bGhlcmUiLCJhIjoiY2lybTdycjV5MDBiaWZrbTZ5dmlkbmV5MCJ9.2_4stsc15NMrrSJpeugLow'
+      });
+
+      geocoder.query('Chester, NJ', showMap);
+
+      function showMap(err, data) {
+        if (data.lbounds) {
+          map.fitBounds(data.lbounds);
+        } else if (data.latlng) {
+          map.setView([data.latlng[0], data.latlng[1]], 13);
+        }
+      }
 
       var locator = L.Mapzen.locator();
       locator.setPosition('bottomright');
