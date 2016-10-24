@@ -14,3 +14,35 @@ L.Mapzen.Map.prototype.addData = function (dataLayerName, customData, customStyl
     return window.setTimeout(self.addData.bind(self, dataLayerName, customData, customStyle), 200);
   }
 }
+
+
+L.Mapzen.Map.prototype.addScene = function (sceneURL, basePath) {
+  var tangram = this._tangram;
+  var self = this;
+  if (tangram._layer) {
+    if (tangram._layer.scene.config) {
+      console.log(tangram._layer.scene);
+      var newSceneObj = {};
+
+      var imports = [];
+      // var currentSceneource = tangram._layer.scene.config_source;
+
+      currentSceneSource = L.Mapzen.BasemapStyles.Refill;
+      imports.push(currentSceneSource);
+      imports.push(sceneURL);
+      newSceneObj.imports = imports;
+
+      tangram._layer.scene.reload(newSceneObj).then( function () {
+        console.log('hm?')
+      });
+      //console.log(tangram._layer.scene);
+
+      // tangram._layer.scene.updateConfig();
+      // tangram._layer.scene.requestRedraw();
+    } else {
+      return window.setTimeout(self.addScene.bind(self, sceneURL, basePath), 200);
+    }
+  } else {
+    return window.setTimeout(self.addScene.bind(self, sceneURL, basePath), 200);
+  }
+}
