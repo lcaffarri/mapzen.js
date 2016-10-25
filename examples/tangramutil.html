@@ -76,12 +76,16 @@
 
       // adds a tangram event listener
       var tLayer;
+      var tUtil;
       map.on('tangramloaded', function(e) {
         tLayer = e.tangramLayer;
+        tUtil = new TangramUtil(tLayer.scene);
+
       });
 
+      // We assume that this is happening after tangramloaded event is fired
       L.easyButton('btn-auto', function(btn, map){
-        map.addScene('https://mapzen-uploads.s3.amazonaws.com/play/262792e74b86d8cb772a3f0fd83c4328/api-search/scene.yaml');
+        tUtil.addScene('https://gist.githubusercontent.com/hanbyul-here/e2d1df4af8ae21c33add6856839799cf/raw/4cb8df870b326d457e616c7d517dd18202bd0125/test');
       }).addTo(map);
 
     </script>
