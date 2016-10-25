@@ -3,8 +3,6 @@ var TangramUtil = function (scene) {
   this.scene = scene;
 
   this.addData = function (dataLayerName, customData, customStyle) {
-    // if (!customStyle) tangram._layer.scene.config.layers.nyc = { 'data': { 'source': dataLayerName }, 'draw': { 'lines': { 'order': 1000, 'width': '2px', 'color': 'red' } } };
-    // else
     this.scene.config.layers.nyc = { 'data': { 'source': dataLayerName }, 'draw': customStyle };
     this.scene.setDataSource(dataLayerName, { type: 'GeoJSON', url: customData.url});
   }
@@ -25,7 +23,7 @@ var TangramUtil = function (scene) {
     var newSceneObj = {};
     var imports = [];
 
-    var currentSceneSource = L.Mapzen.BasemapStyles.Refill;//tangram._layer.scene.config_source;
+    var currentSceneSource = tangram._layer.scene.config_source;
     imports.push(currentSceneSource);
     imports.push(sceneURL);
     newSceneObj.import = imports;
