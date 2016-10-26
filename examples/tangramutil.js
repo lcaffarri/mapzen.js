@@ -32,7 +32,7 @@ var TangramUtil = function (scene) {
     newSceneObj.import = imports;
 
     this.scene.reload(newSceneObj).then(function () {
-      // console.log('hm?')
+
     });
   }
 };
