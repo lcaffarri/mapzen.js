@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
     <link rel="stylesheet" href="https://rawgit.com/CliffCloud/Leaflet.EasyButton/master/src/easy-button.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <style>
       html, body {
         width: 100%;
@@ -18,6 +19,7 @@
         width: 100%;
         height: 100%;
       }
+      .btn-add-data { content: 'add-data'; }
     </style>
   </head>
   <body>
@@ -76,17 +78,53 @@
 
       // adds a tangram event listener
       var tLayer;
+
       var tUtil;
       map.on('tangramloaded', function(e) {
         tLayer = e.tangramLayer;
         tUtil = new TangramUtil(tLayer.scene);
-
       });
 
+      var addDataButton = L.easyButton({
+          states: [{
+                  stateName: 'add-data',   // name the state
+                  icon:      'fa-plus',          // and define its properties
+                  title:     'add data', // like its title
+                  onClick: function(btn, map) {  // and its callback
+                    tUtil.addData('overlay', {url: 'https://raw.githubusercontent.com/dwillis/nyc-maps/master/boroughs.geojson'});
+                     btn.state('remove-data');
+                  }
+              }, {
+                  stateName: 'remove-data',
+                  icon:      'fa-minus',
+                  title:     'remove data',
+                  onClick: function(btn, map) {
+                    tUtil.removeData('overlay');
+                    btn.state('add-data');
+                  }
+          }]
+      });
+
+      addDataButton.addTo(map);
+
+
+
+
+
       // We assume that this is happening after tangramloaded event is fired
-      L.easyButton('btn-auto', function(btn, map){
-        tUtil.addScene('https://gist.githubusercontent.com/hanbyul-here/e2d1df4af8ae21c33add6856839799cf/raw/4cb8df870b326d457e616c7d517dd18202bd0125/test');
-      }).addTo(map);
+      // L.easyButton('btn-add-data', function(btn, map){
+
+      //   tUtil.addData('overlay', {url: 'https://raw.githubusercontent.com/dwillis/nyc-maps/master/boroughs.geojson'});
+      // }).addTo(map);
+
+      // // We assume that this is happening after tangramloaded event is fired
+      // L.easyButton('btn-remove-data', function(btn, map){
+      //   tUtil.removeData('overlay');
+      // }).addTo(map);
+
+      // L.easyButton('btn-add-scene', function(btn, map){
+      //   tUtil.addScene('https://gist.githubusercontent.com/hanbyul-here/e2d1df4af8ae21c33add6856839799cf/raw/4cb8df870b326d457e616c7d517dd18202bd0125/test');
+      // }).addTo(map);
 
     </script>
   </body>

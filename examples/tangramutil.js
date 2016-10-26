@@ -3,20 +3,21 @@ var TangramUtil = function (scene) {
   this.scene = scene;
 
   this.addData = function (dataLayerName, customData, customStyle) {
-    this.scene.config.layers.nyc = { 'data': { 'source': dataLayerName }, 'draw': customStyle };
+    if (!customStyle) customStyle = { 'lines': { 'order': 1000, 'width': '2px', 'color': 'red' } };
+    this.scene.config.layers[dataLayerName] = { 'data': { 'source': dataLayerName }, 'draw': customStyle };
     this.scene.setDataSource(dataLayerName, { type: 'GeoJSON', url: customData.url});
   }
 
   this.removeData = function (dataLayerName) {
     var newDataSources = {};
-    for (var sourceName in this._layer.scene.config.sources){
+    for (var sourceName in this.scene.config.sources){
       if (sourceName === dataLayerName) ;
       else {
-        newDataSources[sourceName] = this._layer.scene.config.sources[sourceName];
+        newDataSources[sourceName] = this.scene.config.sources[sourceName];
       }
     }
-    this._layer.scene.config.sources = newDataSources;
-    this._layer.scene.updateConfig();
+    this.scene.config.sources = newDataSources;
+    this.scene.updateConfig();
   }
 
   this.addScene = function (sceneURL, basePath) {
@@ -24,8 +25,10 @@ var TangramUtil = function (scene) {
     var imports = [];
 
     var currentSceneSource = tangram._layer.scene.config_source;
+
     imports.push(currentSceneSource);
     imports.push(sceneURL);
+
     newSceneObj.import = imports;
 
     this.scene.reload(newSceneObj).then(function () {
