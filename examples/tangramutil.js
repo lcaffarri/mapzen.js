@@ -24,7 +24,7 @@ var TangramUtil = function (scene) {
     var newSceneObj = {};
     var imports = [];
 
-    var currentSceneSource = tangram._layer.scene.config_source;
+    var currentSceneSource = this.scene.config_source;
 
     imports.push(currentSceneSource);
     imports.push(sceneURL);
